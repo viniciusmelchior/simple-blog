@@ -1,18 +1,30 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-                    You're logged in!
-                    <p>Bem vindo, {{Auth::user()->name}}</p>
-                    <p>Email: {{Auth::user()->email}}</p>
+@extends('layouts.app')
+@section('content')
+<div>
+    <p>Bem vindo, {{Auth::user()->name}}</p>
+    <div>
+        <h1>{{$title}}</h1>
+        @foreach ($userPosts as $post)
+        <div class="">
+            <div class="card" style="width: 18rem;">
+              <img style="width: 100%;" src="/storage/cover_images/{{$post->cover_image}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">{{$post->title}}</h5>
+                  <small>Written by {{$post->user->name}}</small>
+                  <p class="card-text">{{$post->body}}</p>
+                  <small>Written on {{$post->created_at}}</small>
+                  <a href="/posts/" class="btn btn-dark mt-1">Return</a>
+                  <a href="/posts/{{$post->id}}/edit" class="btn btn-primary mt-1">Edit</a>
+                  {!! Form::open(['action' => ['App\Http\Controllers\PostsController@destroy', $post->id], 'method' => 'POST', 'class' => 'pull-right' ]) !!}
+                  {{Form::hidden('_method', 'DELETE')}}
+                  {{Form::submit('Delete',['class' => 'btn btn-danger'] )}}
+                  {!! Form::close() !!}
                 </div>
-            </div>
+              </div>
         </div>
+        @endforeach
     </div>
-</x-app-layout>
+</div> 
+@endsection
+
+

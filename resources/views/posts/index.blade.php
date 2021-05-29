@@ -8,6 +8,7 @@
                     <img style="width: 100%;" src="/storage/cover_images/{{$post->cover_image}}" class="card-img-top" alt="...">
                     <div class="card-body">
                       <h5 class="card-title">{{$post->title}}</h5>
+                      <small>Written by {{$post->user->name}}</small>
                       <p class="card-text">{{$post->body}}</p>
                       <small>Written on {{$post->created_at}}</small>
                       <a href="/posts/{{$post->id}}" class="btn btn-primary mt-1">View Post</a>

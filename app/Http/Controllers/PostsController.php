@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class PostsController extends Controller
@@ -19,6 +20,15 @@ class PostsController extends Controller
         
         $posts = Post::orderBy('id', 'desc')->paginate(10);
         return view('posts.index', compact('posts'));
+    }
+
+    public function userPosts(){
+
+        $post = Post::all();
+        $userPosts = $post->where('user_id', '=', Auth::id());
+
+        $title = 'Meus Posts';
+        return view('dashboard', ['title' => $title, 'userPosts' => $userPosts]);
     }
 
     /**
@@ -67,6 +77,7 @@ class PostsController extends Controller
         $post->title = $request->title;
         $post->body = $request->body;
         $post->cover_image = $fileNameToStore;
+        $post->user_id = Auth::id();
         $post->save();
 
         return redirect('/posts')->with('success', 'Post Created');
