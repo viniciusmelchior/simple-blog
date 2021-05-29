@@ -16,7 +16,7 @@ class PostsController extends Controller
     public function index()
     {   
         //$posts = Post::orderBy('id', 'desc')->take(1)->get();
-
+        
         $posts = Post::orderBy('id', 'desc')->paginate(10);
         return view('posts.index', compact('posts'));
     }
@@ -144,7 +144,8 @@ class PostsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
+    {   
+
         $post = Post::find($id);
         if($post->cover_image != 'noimage.jpeg'){
             //apagar imagem
